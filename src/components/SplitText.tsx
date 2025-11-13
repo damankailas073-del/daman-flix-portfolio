@@ -125,6 +125,7 @@ export const SplitText = ({
       className={className}
       style={{
         textAlign,
+        whiteSpace: 'nowrap',
       }}
     >
       {splitText()}
