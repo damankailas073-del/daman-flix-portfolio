@@ -21,18 +21,10 @@ export const Hero = () => {
       <div className="relative z-10 flex min-h-screen items-center">
         <div className="container mx-auto px-4 md:px-8 lg:px-16">
           <div className="max-w-2xl space-y-6">
-            <SplitText
-              text="DAMAN KAILAS"
-              className="text-5xl font-black tracking-tight text-foreground md:text-7xl lg:text-8xl"
-              delay={100}
-              duration={0.6}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="left"
+            <img
+              src="/photo_5800851120417606703_y (1).jpg"
+              alt="Daman Kailas"
+              className="w-full max-w-md mb-6"
             />
             <h2 className="text-2xl font-semibold text-foreground md:text-3xl lg:text-4xl">
               Production Assistant Portfolio
