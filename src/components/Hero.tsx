@@ -2,15 +2,40 @@ import { Button } from "@/components/ui/button";
 import { Play, Info, Mail, Linkedin, Twitter, FileText } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 import SplitText from "@/components/SplitText";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
 export const Hero = () => {
+  const logoRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (logoRef.current) {
+      gsap.fromTo(
+        logoRef.current,
+        {
+          opacity: 0,
+          y: 60,
+          scale: 0.9
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.2
+        }
+      );
+    }
+  }, []);
+
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroBg} 
-          alt="Film production set" 
+        <img
+          src={heroBg}
+          alt="Film production set"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
@@ -22,9 +47,10 @@ export const Hero = () => {
         <div className="container mx-auto px-4 md:px-8 lg:px-16">
           <div className="max-w-2xl space-y-6">
             <img
-              src="/photo_5800851120417606703_y (1).jpg"
+              ref={logoRef}
+              src="/photo_5800851120417606703_y (1) copy.jpg"
               alt="Daman Kailas"
-              className="w-full max-w-md mb-6"
+              className="w-full max-w-md mb-6 mix-blend-lighten"
             />
             <h2 className="text-2xl font-semibold text-foreground md:text-3xl lg:text-4xl">
               Production Assistant Portfolio
