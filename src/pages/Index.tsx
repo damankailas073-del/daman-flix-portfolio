@@ -3,6 +3,7 @@ import { ExperienceCard } from "@/components/ExperienceCard";
 import { SkillCard } from "@/components/SkillCard";
 import { ToolCard } from "@/components/ToolCard";
 import { Section } from "@/components/Section";
+import { SkillsLogoLoop } from "@/components/SkillsLogoLoop";
 import { 
   Camera, 
   Film, 
@@ -129,6 +130,9 @@ const Index = () => {
           ))}
         </div>
       </Section>
+
+      {/* Animated Skills Logo Loop */}
+      <SkillsLogoLoop />
 
       {/* Education */}
       <Section title="Education">
