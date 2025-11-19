@@ -1,12 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { Play, Info, Mail, Linkedin, Twitter, FileText } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
 import SplitText from "@/components/SplitText";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
+import { client, urlFor } from "@/lib/sanity";
+
+interface LandingPageData {
+  title?: string;
+  heroImage?: any;
+  description?: string;
+  ctaButton?: {
+    text?: string;
+    url?: string;
+  };
+}
 
 export const Hero = () => {
   const logoRef = useRef<HTMLImageElement>(null);
+  const [pageData, setPageData] = useState<LandingPageData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const query = '*[_type == "landingPage"][0]';
+        const data = await client.fetch(query);
+        setPageData(data);
+      } catch (error) {
+        console.error('Error fetching Sanity data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (logoRef.current) {
@@ -34,7 +62,11 @@ export const Hero = () => {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          src={
+            pageData?.heroImage
+              ? urlFor(pageData.heroImage).width(1920).url()
+              : "https://images.pexels.com/photos/66134/pexels-photo-66134.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          }
           alt="Film production set"
           className="h-full w-full object-cover"
         />
@@ -53,7 +85,7 @@ export const Hero = () => {
               className="w-full max-w-md mb-6 mix-blend-lighten"
             />
             <h2 className="text-2xl font-semibold text-foreground md:text-3xl lg:text-4xl">
-              Production Assistant Portfolio
+              {pageData?.title || "Production Assistant Portfolio"}
             </h2>
             
             {/* Badge */}
@@ -68,18 +100,24 @@ export const Hero = () => {
 
             {/* Description */}
             <p className="max-w-lg text-base text-foreground md:text-lg">
-              Entry-Level Production Assistant in Film/TV, skilled in script annotation, set storytelling, editing, and photography.
+              {pageData?.description || "Entry-Level Production Assistant in Film/TV, skilled in script annotation, set storytelling, editing, and photography."}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 py-6 text-lg"
-                onClick={() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => {
+                  if (pageData?.ctaButton?.url) {
+                    window.location.href = pageData.ctaButton.url;
+                  } else {
+                    document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
               >
                 <Play className="h-5 w-5 fill-current" />
-                View Portfolio
+                {pageData?.ctaButton?.text || "View Portfolio"}
               </Button>
               <Button 
                 size="lg" 
